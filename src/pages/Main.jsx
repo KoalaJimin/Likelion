@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-//import date from "./data.json";
+import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
@@ -42,6 +42,76 @@ const Text = styled.div`
   color: #5e162b;
 `;
 
+const Name = styled.div`
+  position: relative;
+  width: 14px;
+  height: 0px;
+  left: 38%;
+  top: 40px;
+  border: 5px solid #dc7190;
+  transform: rotate(90deg);
+`;
+
+const NameText = styled.div`
+  position: relative;
+  width: 50px;
+  height: 26px;
+  left: 40%;
+  top: 25px;
+  font-family: "SUIT";
+  font-style: normal;
+  font-weight: 550;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #000000;
+`;
+
+const Namebox = styled.input`
+  position: absolute;
+  width: 250px;
+  height: 35px;
+  left: 38%;
+  top: 52%;
+  background: #cd99a6;
+  border-radius: 50px;
+`;
+
+const Phone = styled.div`
+  position: absolute;
+  width: 12px;
+  height: 0px;
+  left: 38%;
+  top: 65%;
+  border: 5px solid #dc7190;
+  transform: rotate(90deg);
+`;
+
+const PhoneText = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 26px;
+  left: 40%;
+  top: 64%;
+  font-family: "SUIT";
+  font-style: normal;
+  font-weight: 550;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #000000;
+`;
+
+const Phonebox = styled.input`
+  position: absolute;
+  width: 250px;
+  height: 35px;
+  left: 38%;
+  top: 69%;
+  background: #cd99a6;
+  border-radius: 50px;
+`;
+
 const ButtonInput = styled.button`
   position: relative;
   margin: auto;
@@ -76,8 +146,45 @@ const Slogan = styled.div`
 const Main = () => {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
   const go = () => {
-    navigate("/pass");
+    let foundMatch = false;
+
+    for (let i = 0; i < data.length; i++) {
+      if (
+        data[i].name === name &&
+        data[i].phone === phoneNumber &&
+        data[i].pass === 1
+      ) {
+        navigate("/Pass", { state: data[i].name });
+        foundMatch = true;
+        break;
+      } else if (
+        data[i].name === name &&
+        data[i].phone === phoneNumber &&
+        data[i].pass === 0
+      ) {
+        navigate("/Fail");
+        foundMatch = true;
+        break;
+      }
+    }
+
+    if (!foundMatch) {
+      alert(
+        "등록되지 않은 성함/번호입니다. 성함과 번호를 다시 한 번 확인해주세요!"
+      );
+    }
   };
 
   return (
@@ -95,6 +202,16 @@ const Main = () => {
           <br />
           11기 아기사자 합격자 발표
         </Text>
+        <Name></Name>
+        <NameText>성함</NameText>
+        <Namebox type="text" value={name} onChange={handleNameChange}></Namebox>
+        <Phone></Phone>
+        <PhoneText>전화번호</PhoneText>
+        <Phonebox
+          type="text"
+          value={phoneNumber}
+          onChange={handlePhoneNumberChange}
+        ></Phonebox>
         <ButtonInput onClick={go}>입력</ButtonInput>
       </Whitebox>
       <Slogan>DONGDUK X LIKELION</Slogan>
