@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 const Background = styled.div`
   position: relative;
@@ -109,6 +110,9 @@ const LetterPic = styled.div`
 `;
 
 const Pass = () => {
+  const location = useLocation();
+  const name = location.state;
+
   return (
     <Background>
       <Whitebox>
@@ -124,7 +128,7 @@ const Pass = () => {
           <br />
           축하합니다!
         </Title>
-        <Name0>어쩌고</Name0>
+        <Name0>{name}</Name0>
         <Name1>님</Name1>
         <Name2>은</Name2>
         <Text>
@@ -135,7 +139,9 @@ const Pass = () => {
           자세한 사항은 discord를 통해 안내드리겠습니다.
           <br />
           <br />
-          https://discord.gg/BSHH7mck
+          <a href="https://discord.gg/BSHH7mck" target="_blank">
+            https://discord.gg/BSHH7mck
+          </a>
           <br />
           <br />
           3월 17일까지 디스코드에 들어와주세요!
